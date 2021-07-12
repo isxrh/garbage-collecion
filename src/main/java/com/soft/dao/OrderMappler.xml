@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.soft.dao.OrderMapper" >
+
+    <insert id="insert" parameterType="com.soft.model.Order" >
+        insert into collection_order  (Customer_id,Childcustomer_id,Enterprise_name, Product_weight ,Order_starttime,Order_status,Order_appointmenttime,Product_id)
+        values (#{Customer_id}, #{Childcustomer_id},#{Enterprise_name},
+                #{Product_weight}, #{Order_starttime}, #{Order_status}, #{Order_appointmenttime}, #{Product_id})
+    </insert>
+    <select id="selectCompletedOrdersByCustomerId" resultType="com.soft.model.Order"  >
+        select
+            id,Customer_id,Childcustomer_id,Enterprise_name, Product_weight ,Order_starttime,Order_endtime,Order_status,Order_appointmenttime,Product_id,Recycler_id
+        from collection_order
+        where Customer_id=#{id} and (Order_status='已完成' or  Order_status='已取消')
+    </select>
+    <select id="selectOutstandingOrdersByCustomerId" resultType="com.soft.model.Order"  >
+        select
+           id, Customer_id,Childcustomer_id,Enterprise_name, Product_weight ,Order_starttime,Order_status,Order_endtime,Order_appointmenttime,Product_id,Recycler_id
+        from collection_order
+        where Customer_id=#{id} and Order_status!='已完成' and  Order_status!='已取消'
+    </select>
+    <update id="CancelOrder"  >
+        update collection_order
+        set Order_status='已取消',Order_endtime=#{date}
+        where id=#{id}
+    </update>
+    <update id="ConfirmOrder"  >
+        update collection_order
+        set Order_status='已完成',Order_endtime=#{date}
+        where id=#{id}
+    </update>
+    <select id="selectByOrderState" resultType="com.soft.model.Order">
+        select *
+        from `collection_order`
+        where Order_status = '已下单'
+    </select>
+
+    <update id="updateOrderByRecycler" >
+        update `collection_order`
+        set Order_status = '已接单',
+            Recycler_id = #{recycler_id}
+        where id = #{id}
+    </update>
+
+    <select id="selectCompletedOrderByRecyclerId" resultType="com.soft.model.Order">
+        select *
+        from `collection_order`
+        where Recycler_id = #{id} and (Order_status='已完成' or Order_status='已取消')
+    </select>
+
+    <select id="selectIncompleteOrderByRecyclerId" resultType="com.soft.model.Order">
+        select *
+        from `collection_order`
+        where Recycler_id = #{id} and Order_status='已接单'
+    </select>
+
+    <update id="cancelOrderByRecycler" >
+        update `collection_order`
+        set Order_status = '已下单'
+        where id = #{id}
+    </update>
+    <!--  根据企业id查找已接单的订单-->
+    <select id="selectOrderByEnterpriseId" resultType="com.soft.model.Order">
+        select *
+        from collection_order
+        where Enterprise_id = #{Enterprise_id} and Order_status='已接单'
+    </select>
+
+    <!--  根据企业id查找已完成的订单-->
+    <select id="selectCompletedOrderByEnterpriseId" resultType="com.soft.model.Order">
+        select *
+        from collection_order
+        where Enterprise_id = #{Enterprise_id} and (Order_status='已完成' or Order_status='已取消')
+    </select>
+
+    <!--  根据订单id=修改订单状态-->
+    <update id="updateOrderOrderStatusById" >
+        update collection_order
+        set Order_status = '已取消'
+        where id = #{id}
+    </update>
+
+
+
+</mapper>

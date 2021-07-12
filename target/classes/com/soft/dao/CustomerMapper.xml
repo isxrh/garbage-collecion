@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.soft.dao.CustomerMapper" >
+   <update id="updateCustomer">
+       update collection_customer
+       set Customer_name=#{Customer_name},Customer_account=#{Customer_account},Customer_password=#{Customer_password}
+       where id=#{id}
+   </update>
+    <select id="findCustomer" resultType="Integer">
+        select count(*) from collection_customer where Customer_account=#{Customer_account} and Customer_password=#{Customer_password}
+    </select>
+    <select id="searchCustomer" resultType="com.soft.model.Customer">
+        select * from collection_customer where Customer_account=#{Customer_account} and Customer_password=#{Customer_password}
+    </select>
+    <select id="selectByExample" resultType="com.soft.model.Customer"  >
+        select * from collection_customer
+    </select>
+    <!-- 查询 -->
+    <select id="findByAccount" parameterType="int" resultType="com.soft.model.Customer">
+        SELECT * FROM collection_customer WHERE Customer_account=#{account}
+    </select>
+    <!-- 删除 -->
+    <delete id="delete" parameterType="int">
+        DELETE FROM collection_customer WHERE Id=#{id}
+    </delete>
+
+
+</mapper>

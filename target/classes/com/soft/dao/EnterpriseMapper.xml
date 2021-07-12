@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.soft.dao.EnterpriseMapper" >
+    <sql id="Base_Column_List">
+    Id, Enterprise_name, Enterprise_account, Enterprise_password, Enterprise_address, Enterprise_phone, Enterprise_image,Enterprise_introduce
+    </sql>
+    <select id="selectByExample" resultType="com.soft.model.Enterprise"  >
+        select
+        <include refid="Base_Column_List"/>
+        from collection_enterprise
+    </select>
+    <select id="selectById" resultType="com.soft.model.Enterprise"  >
+        select
+        <include refid="Base_Column_List"/>
+        from collection_enterprise
+        where id=#{id}
+    </select>
+    <select id="selectByEnterpriseName" resultType="com.soft.model.Enterprise"  >
+        select
+        <include refid="Base_Column_List"/>
+        from collection_enterprise
+        where Enterprise_name like '%${name}%'
+    </select>
+    <update id="updateEnterInfo" >
+        update `collection_enterprise`
+        set Enterprise_account = #{account},
+            Enterprise_password = #{password},
+            Enterprise_phone = #{phone},
+            Enterprise_address = #{address},
+            Enterprise_name = #{name}
+        where id = #{id}
+    </update>
+    <select id="findEnterprise" resultType="Integer">
+        select count(*) from collection_enterprise where Enterprise_account=#{Enterprise_account} and Enterprise_password=#{Enterprise_password}
+    </select>
+    <select id="searchEnterprise" resultType="com.soft.model.Enterprise">
+        select * from collection_enterprise where Enterprise_account=#{Enterprise_account} and Enterprise_password=#{Enterprise_password}
+    </select>
+
+
+</mapper>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.soft.dao.ChildCustomerMapper" >
+    <sql id="Base_Column_List">
+        id, Customer_id,Customer_name, Customer_address ,Customer_phone
+    </sql>
+    <select id="selectById" resultType="com.soft.model.ChildCustomer"  >
+        select
+        <include refid="Base_Column_List"/>
+        from collection_childcustomer
+        where Customer_id=#{id}
+    </select>
+    <insert id="insert" parameterType="com.soft.model.ChildCustomer" >
+        insert into collection_childcustomer  ( Customer_id,Customer_name, Customer_address ,Customer_phone)
+        values ( #{Customer_id}, #{Customer_name},
+                #{Customer_address}, #{Customer_phone})
+    </insert>
+    <delete id="deleteAddress" >
+        delete from collection_childcustomer where id=#{id}
+    </delete>
+    <update id="updateAddress" >
+        update collection_childcustomer
+        set Customer_name=#{Customer_name},Customer_address=#{Customer_address},Customer_phone=#{Customer_phone}
+        where id=#{id}
+    </update>
+    <select id="selectAll" resultType="com.soft.model.ChildCustomer">
+        select *
+        from `collection_childcustomer`
+    </select>
+
+</mapper>

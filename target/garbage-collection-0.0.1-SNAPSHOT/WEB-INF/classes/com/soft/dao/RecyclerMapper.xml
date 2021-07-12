@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.soft.dao.RecyclerMapper" >
+    <select id="getAll" resultType="com.soft.model.Recycler">
+        select * from collection_recycler
+    </select>
+    <select id="selectRecyclerById" resultType="com.soft.model.Recycler">
+        select *
+        from  `collection_recycler`
+        where id = #{id}
+    </select>
+
+    <update id="updateInfo" >
+        update `collection_recycler`
+        set RecyclerAccount = #{account},
+            RecyclerPassword = #{password},
+            RecyclerPhone = #{phone},
+            RecyclerEmail = #{email},
+            RecyclerName = #{name}
+        where id = #{id}
+    </update>
+    <select id="findRecycler" resultType="Integer">
+        select count(*) from collection_recycler where RecyclerAccount=#{RecyclerAccount} and RecyclerPassword=#{RecyclerPassword}
+    </select>
+    <select id="searchRecycler" resultType="com.soft.model.Recycler">
+        select * from collection_recycler where RecyclerAccount=#{RecyclerAccount} and RecyclerPassword=#{RecyclerPassword}
+    </select>
+    <select id="selectByExample"  resultType="com.soft.model.Recycler" >
+        select * from collection_recycler
+    </select>
+
+
+</mapper>
